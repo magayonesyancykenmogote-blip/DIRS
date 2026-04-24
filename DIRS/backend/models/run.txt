@@ -1,0 +1,19 @@
+# Backend (already running)
+cd "c:\Users\porqu\Desktop\DIRS (2)\DIRS\backend"
+npm start
+
+cmd /c "set SERVER_PORT=4001 && npm start"
+
+# Frontend
+
+
+
+# Backend (already running)
+cd "C:\Users\yanse\Documents\DIRS (2)\DIRS\backend"
+>> npm start
+
+
+# Frontend
+cd "C:\Users\yanse\Documents\DIRS (2)\DIRS\frontend"
+npm install
+npm run dev
