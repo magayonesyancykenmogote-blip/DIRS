@@ -2,7 +2,11 @@
   "name": "dirs-full-stack",
   "version": "1.0.0",
   "private": true,
+  "type": "module",
   "description": "Full-stack DIRS application",
+  "engines": {
+    "node": "18.x"
+  },
   "scripts": {
     "build": "npm run build --prefix frontend",
     "dev": "npm run dev --prefix frontend"

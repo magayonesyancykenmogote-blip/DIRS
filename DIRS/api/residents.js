@@ -46,12 +46,6 @@ export default async function handler(req, res) {
       return res.json({ count: residents.length, total, page: pageNum, pages, data: residents });
     }
 
-    if (req.method === 'POST') {
-      // Handle POST for check-blotter
-      const { resident_id } = req.body;
-      return res.json({ hasBlotter: false });
-    }
-
     res.status(405).json({ error: 'Method not allowed' });
   } catch (error) {
     console.error('Error:', error);
