@@ -1,0 +1,10 @@
+{
+  "buildCommand": "npm run build --prefix frontend",
+  "outputDirectory": "frontend/dist",
+  "env": {
+    "MONGO_URI": "@MONGO_URI",
+    "MONGO_DB_NAME": "document_db",
+    "NODE_ENV": "production"
+  },
+  "regions": ["sin1"]
+}

@@ -17,4 +17,8 @@ export default defineConfig({
   optimizeDeps: {
     exclude: ['lucide-react'],
   },
+  define: {
+    // Make sure environment variables are available
+    __API_URL__: JSON.stringify(process.env.VITE_API_URL || ''),
+  },
 });

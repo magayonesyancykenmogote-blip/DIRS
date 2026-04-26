@@ -1,0 +1,15 @@
+{
+  "name": "dirs-full-stack",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Full-stack application with React frontend and Express backend",
+  "workspaces": [
+    "frontend",
+    "backend"
+  ],
+  "scripts": {
+    "install-all": "npm install --prefix frontend && npm install --prefix backend",
+    "build": "npm run build --prefix frontend",
+    "dev": "npm run dev --prefix frontend"
+  }
+}
