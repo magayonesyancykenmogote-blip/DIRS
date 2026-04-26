@@ -1,46 +1,6 @@
 {
-  "version": 2,
-  "builds": [
-    {
-      "src": "package.json",
-      "use": "@vercel/static-build",
-      "config": {
-        "distDir": "frontend/dist"
-      }
-    },
-    {
-      "src": "api/health.js",
-      "use": "@vercel/node"
-    },
-    {
-      "src": "api/users.js",
-      "use": "@vercel/node"
-    },
-    {
-      "src": "api/documents.js",
-      "use": "@vercel/node"
-    }
-  ],
-  "routes": [
-    {
-      "src": "/api/health",
-      "dest": "/api/health.js"
-    },
-    {
-      "src": "/api/users",
-      "dest": "/api/users.js"
-    },
-    {
-      "src": "/api/documents",
-      "dest": "/api/documents.js"
-    },
-    {
-      "src": "(.*)",
-      "dest": "/index.html"
-    }
-  ],
-  "env": {
-    "MONGO_URI": "@MONGO_URI",
-    "MONGO_DB_NAME": "document_db"
-  }
+  "buildCommand": "cd frontend && npm run build",
+  "outputDirectory": "frontend/dist",
+  "installCommand": "npm install && cd frontend && npm install"
 }
+
