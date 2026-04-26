@@ -29,11 +29,11 @@ app.get("/", (req, res) => {
   res.json({ status: "API is running" });
 });
 
-// Routes
-app.use("/users", userRoutes);
-app.use("/documents", documentRoutes);
-app.use("/residents", residentRoutes);
-app.use("/receipts", receiptRoutes);
+// API Routes
+app.use("/api/users", userRoutes);
+app.use("/api/documents", documentRoutes);
+app.use("/api/residents", residentRoutes);
+app.use("/api/receipts", receiptRoutes);
 
 // 404 handler
 app.use((req, res) => {
