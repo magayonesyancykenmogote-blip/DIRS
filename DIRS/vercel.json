@@ -1,7 +1,8 @@
 {
   "version": 2,
-  "buildCommand": "npm run build --prefix frontend",
+  "buildCommand": "npm run build --prefix frontend && npm install --prefix . --legacy-peer-deps",
   "outputDirectory": "frontend/dist",
+  "public": "frontend/dist",
   "env": {
     "MONGO_URI": "@MONGO_URI",
     "MONGO_DB_NAME": "document_db"
@@ -9,21 +10,14 @@
   "functions": {
     "api/**/*.js": {
       "runtime": "nodejs20.x",
-      "maxDuration": 30
+      "memory": 1024,
+      "maxDuration": 60
     }
   },
   "routes": [
     {
-      "src": "/api/health",
-      "dest": "/api/health.js"
-    },
-    {
-      "src": "/api/documents",
-      "dest": "/api/documents.js"
-    },
-    {
-      "src": "/api/users",
-      "dest": "/api/users.js"
+      "src": "/api/(.*)",
+      "dest": "/api/$1.js"
     },
     {
       "src": "/(.*)",
