@@ -1,18 +1,25 @@
 {
-  "buildCommand": "npm run build",
+  "buildCommand": "cd frontend && npm install && npm run build",
   "outputDirectory": "frontend/dist",
+  "env": {
+    "MONGO_URI": "@mongo_uri",
+    "MONGO_DB_NAME": "document_db",
+    "NODE_ENV": "production"
+  },
   "functions": {
-    "api/**/*.js": {
-      "runtime": "nodejs18.x"
+    "api/index.js": {
+      "runtime": "nodejs18.x",
+      "memory": 1024,
+      "maxDuration": 30
     }
   },
   "rewrites": [
     {
-      "source": "/api/:path*",
-      "destination": "/api/:path*"
+      "source": "/api/(.*)",
+      "destination": "/api"
     },
     {
-      "source": "/:path*",
+      "source": "/(.*)",
       "destination": "/index.html"
     }
   ]

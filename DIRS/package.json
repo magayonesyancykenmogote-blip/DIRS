@@ -9,7 +9,10 @@
   },
   "scripts": {
     "build": "cd frontend && npm install && npm run build",
-    "dev": "npm run dev --prefix frontend"
+    "dev": "npm run dev --prefix frontend",
+    "dev:backend": "cd backend && nodemon server.js",
+    "dev:all": "npm run dev & npm run dev:backend",
+    "install:all": "npm install && cd backend && npm install && cd ../frontend && npm install"
   },
   "devDependencies": {
     "nodemon": "^3.1.14"
