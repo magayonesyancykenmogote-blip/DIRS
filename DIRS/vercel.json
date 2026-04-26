@@ -4,21 +4,9 @@
   "installCommand": "npm install && cd frontend && npm install",
   "rewrites": [
     {
-      "source": "/api/(.*)",
-      "destination": "/api"
-    },
-    {
       "source": "/(.*)",
       "destination": "/index.html"
     }
-  ],
-  "env": [
-    "MONGO_URI",
-    "MONGO_DB_NAME",
-    "PROFILING_MONGO_URI",
-    "SERVER_PORT",
-    "VITE_SUPABASE_URL",
-    "VITE_SUPABASE_ANON_KEY"
   ]
 }
 
