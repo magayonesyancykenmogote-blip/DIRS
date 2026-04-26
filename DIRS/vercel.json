@@ -5,5 +5,29 @@
   "env": {
     "MONGO_URI": "@MONGO_URI",
     "MONGO_DB_NAME": "document_db"
-  }
+  },
+  "functions": {
+    "api/**/*.js": {
+      "runtime": "nodejs20.x",
+      "maxDuration": 30
+    }
+  },
+  "routes": [
+    {
+      "src": "/api/health",
+      "dest": "/api/health.js"
+    },
+    {
+      "src": "/api/documents",
+      "dest": "/api/documents.js"
+    },
+    {
+      "src": "/api/users",
+      "dest": "/api/users.js"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
+    }
+  ]
 }
