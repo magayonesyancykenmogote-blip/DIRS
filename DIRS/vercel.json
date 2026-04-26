@@ -2,6 +2,16 @@
   "buildCommand": "cd frontend && npm run build",
   "outputDirectory": "frontend/dist",
   "installCommand": "npm install && cd frontend && npm install",
+  "routes": [
+    {
+      "src": "/api(.*)",
+      "dest": "/api/index.js"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
+    }
+  ],
   "env": {
     "MONGO_URI": "@MONGO_URI",
     "MONGO_DB_NAME": "document_db"
