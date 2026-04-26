@@ -3,26 +3,46 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
+import path from "path";
+import { fileURLToPath } from "url";
 
+// Get current directory
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// DNS configuration
 dns.setServers(["1.1.1.1", "8.8.8.8"]);
+
+// Import backend routes and models
 import userRoutes from "../backend/routes/userRoutes.js";
 import documentRoutes from "../backend/routes/documentRoutes.js";
 import residentRoutes from "../backend/routes/residentRoutes.js";
 import receiptRoutes from "../backend/routes/receiptRoutes.js";
 
-dotenv.config();
+dotenv.config({ path: path.join(__dirname, "../.env") });
 
 const app = express();
 
-// CORS configuration
+// CORS configuration with regex support for vercel.app domains
 const corsOptions = {
-  origin: [
-    "http://localhost:3000",
-    "http://localhost:5173",
-    "https://*.vercel.app",
-  ],
+  origin: function (origin, callback) {
+    const allowedOrigins = [
+      "http://localhost:3000",
+      "http://localhost:5173",
+    ];
+    
+    // Allow all vercel.app domains
+    if (!origin || origin.includes(".vercel.app") || origin.includes("localhost")) {
+      callback(null, true);
+    } else if (allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(null, true); // For development, allow all
+    }
+  },
   credentials: true,
 };
+
 app.use(cors(corsOptions));
 app.use(express.json());
 
@@ -32,7 +52,7 @@ let mongoConnecting = false;
 
 app.use(async (req, res, next) => {
   // Skip connection check for health endpoint
-  if (req.path === "/health") {
+  if (req.path === "/health" || req.path === "/api-test") {
     return next();
   }
 
@@ -42,7 +62,7 @@ app.use(async (req, res, next) => {
 
   // Prevent multiple concurrent connection attempts
   if (mongoConnecting) {
-    console.log("Connection in progress, waiting...");
+    console.log("⏳ Connection in progress, waiting...");
     let attempts = 0;
     while (mongoConnecting && attempts < 30) {
       await new Promise(resolve => setTimeout(resolve, 100));
@@ -77,12 +97,13 @@ app.use(async (req, res, next) => {
     res.status(500).json({ 
       error: "Database connection failed", 
       details: err.message,
-      mongoUri: process.env.MONGO_URI ? "Set" : "Not set"
+      mongoUri: process.env.MONGO_URI ? "Set" : "Not set",
+      nodeEnv: process.env.NODE_ENV
     });
   }
 });
 
-// Health check
+// Health check endpoint
 app.get("/health", (req, res) => {
   const dbStatus = mongoose.connection.readyState === 1 ? "Connected" : "Disconnected";
   const mongoUri = process.env.MONGO_URI ? "Set" : "Not set";
@@ -91,7 +112,8 @@ app.get("/health", (req, res) => {
     time: new Date(),
     database: dbStatus,
     mongoUri,
-    mongoConnected
+    mongoConnected,
+    nodeEnv: process.env.NODE_ENV
   });
 });
 
@@ -99,7 +121,8 @@ app.get("/health", (req, res) => {
 app.get("/api-test", (req, res) => {
   res.json({ 
     message: "API is working!",
-    database: mongoose.connection.readyState === 1 ? "Connected" : "Disconnected"
+    database: mongoose.connection.readyState === 1 ? "Connected" : "Disconnected",
+    mongoUri: process.env.MONGO_URI ? "Set" : "Not set"
   });
 });
 
@@ -109,7 +132,21 @@ app.use("/documents", documentRoutes);
 app.use("/residents", residentRoutes);
 app.use("/receipts", receiptRoutes);
 
+// Catch all other API routes
+app.get("/", (req, res) => {
+  res.json({ message: "DIRS API is running", endpoints: ["/users", "/documents", "/residents", "/receipts"] });
+});
+
 // 404 handler
-app.use((req, res) => res.status(404).json({ error: "Not found" }));
+app.use((req, res) => {
+  console.warn(`404: ${req.method} ${req.path}`);
+  res.status(404).json({ error: "Not found", path: req.path });
+});
+
+// Error handler
+app.use((err, req, res, next) => {
+  console.error("Error:", err);
+  res.status(500).json({ error: err.message });
+});
 
 export default app;
