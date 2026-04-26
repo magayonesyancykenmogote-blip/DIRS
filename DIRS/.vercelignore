@@ -1,0 +1,9 @@
+# Don't ignore the backend folder
+!backend/
+
+# Ignore other common directories
+node_modules/
+.git/
+.gitignore
+*.md
+.env*

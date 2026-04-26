@@ -1,18 +1,7 @@
 {
   "buildCommand": "npm install --prefix backend && npm run build --prefix frontend",
   "outputDirectory": "frontend/dist",
-  "functions": {
-    "api/index.js": {
-      "runtime": "nodejs18.x",
-      "includeFiles": "backend/**"
-    }
-  },
-  "rewrites": [
-    {
-      "source": "/api/(.*)",
-      "destination": "/api"
-    }
-  ],
+  "installCommand": "npm install --prefix frontend && npm install --prefix backend",
   "env": {
     "MONGO_URI": "@MONGO_URI",
     "MONGO_DB_NAME": "document_db",
