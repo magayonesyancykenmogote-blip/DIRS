@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { User } from '../../backend/models/userModel.js';
+import { User } from '../backend/models/userModel.js';
 
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');

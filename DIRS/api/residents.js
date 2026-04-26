@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { getResidentModel } from '../../backend/models/residentModel.js';
+import { getResidentModel } from '../backend/models/residentModel.js';
 
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
