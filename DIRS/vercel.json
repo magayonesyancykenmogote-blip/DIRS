@@ -1,19 +1,18 @@
 {
   "version": 2,
-  "buildCommand": "npm run build --prefix frontend && npm install --prefix . --legacy-peer-deps",
-  "outputDirectory": "frontend/dist",
-  "public": "frontend/dist",
-  "env": {
-    "MONGO_URI": "@MONGO_URI",
-    "MONGO_DB_NAME": "document_db"
-  },
-  "functions": {
-    "api/**/*.js": {
-      "runtime": "nodejs20.x",
-      "memory": 1024,
-      "maxDuration": 60
+  "builds": [
+    {
+      "src": "frontend/package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "frontend/dist"
+      }
+    },
+    {
+      "src": "api/**/*.js",
+      "use": "@vercel/node"
     }
-  },
+  ],
   "routes": [
     {
       "src": "/api/(.*)",
@@ -23,5 +22,9 @@
       "src": "/(.*)",
       "dest": "/index.html"
     }
-  ]
+  ],
+  "env": {
+    "MONGO_URI": "@MONGO_URI",
+    "MONGO_DB_NAME": "document_db"
+  }
 }
