@@ -48,17 +48,18 @@ export default async function handler(req, res) {
 
   if (req.method === 'OPTIONS') return res.status(200).end();
 
-  const { pathname } = new URL(req.url, `http://${req.headers.host}`);
-
   try {
     await connectDB();
 
+    // Get the path from the request
+    const path = req.url?.split('?')[0] || '/';
+
     // Routes
-    if (pathname === '/api/health') {
+    if (path === '/api/health' || path === '/health') {
       return res.status(200).json({ status: 'ok', database: 'connected', timestamp: new Date() });
     }
 
-    if (pathname === '/api/users') {
+    if (path === '/api/users' || path === '/users') {
       if (req.method === 'GET') {
         const users = await User.find().limit(10);
         return res.status(200).json(users);
@@ -70,7 +71,7 @@ export default async function handler(req, res) {
       }
     }
 
-    if (pathname === '/api/documents') {
+    if (path === '/api/documents' || path === '/documents') {
       if (req.method === 'GET') {
         const docs = await Document.find().limit(20).sort({ createdAt: -1 });
         return res.status(200).json(docs);
@@ -82,9 +83,10 @@ export default async function handler(req, res) {
       }
     }
 
-    res.status(404).json({ error: 'Not found' });
+    res.status(404).json({ error: 'Not found', path });
   } catch (error) {
     console.error('Error:', error);
     res.status(500).json({ error: error.message });
   }
 }
+
