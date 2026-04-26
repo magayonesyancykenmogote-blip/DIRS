@@ -1,9 +1,7 @@
-# Don't ignore the backend folder
-!backend/
+# Minimal ignore file - allow everything needed for build
+node_modules
+.git
+.env.local
+.env.*.local
+*.log
 
-# Ignore other common directories
-node_modules/
-.git/
-.gitignore
-*.md
-.env*

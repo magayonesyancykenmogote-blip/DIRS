@@ -2,9 +2,8 @@
   "name": "dirs-full-stack",
   "version": "1.0.0",
   "private": true,
-  "description": "Full-stack application with React frontend and serverless API",
+  "description": "Full-stack DIRS application",
   "scripts": {
-    "install-all": "npm install --prefix frontend && npm install",
     "build": "npm run build --prefix frontend",
     "dev": "npm run dev --prefix frontend"
   },
@@ -13,5 +12,6 @@
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "mongoose": "^8.0.3"
-  }
+  },
+  "devDependencies": {}
 }

@@ -1,7 +1,7 @@
 import dotenv from "dotenv";
 import mongoose from "mongoose";
 
-dotenv.config({ path: ".env" });
+dotenv.config();
 
 // Document Model
 const documentSchema = new mongoose.Schema(
@@ -30,7 +30,11 @@ async function initDB() {
     if (!uri) throw new Error("Missing MONGO_URI");
 
     if (mongoose.connection.readyState === 0) {
-      await mongoose.connect(uri, { dbName });
+      await mongoose.connect(uri, {
+        dbName,
+        serverSelectionTimeoutMS: 5000,
+        socketTimeoutMS: 45000
+      });
     }
 
     if (!Document) {

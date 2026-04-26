@@ -2,32 +2,20 @@
   "version": 2,
   "buildCommand": "npm run build --prefix frontend",
   "outputDirectory": "frontend/dist",
-  "installCommand": "npm install --prefix frontend",
-  "functions": {
-    "api/health.js": {
-      "runtime": "nodejs18.x"
-    },
-    "api/documents.js": {
-      "runtime": "nodejs18.x"
-    }
+  "public": true,
+  "env": {
+    "MONGO_URI": "@MONGO_URI",
+    "MONGO_DB_NAME": "document_db",
+    "NODE_ENV": "production"
   },
   "routes": [
     {
-      "src": "/api/health",
-      "dest": "/api/health.js"
-    },
-    {
-      "src": "/api/documents",
-      "dest": "/api/documents.js"
+      "src": "/api/(.*)",
+      "dest": "/api/$1"
     },
     {
       "src": "/(.*)",
       "dest": "frontend/dist/index.html"
     }
-  ],
-  "env": {
-    "MONGO_URI": "@MONGO_URI",
-    "MONGO_DB_NAME": "document_db",
-    "NODE_ENV": "production"
-  }
+  ]
 }
