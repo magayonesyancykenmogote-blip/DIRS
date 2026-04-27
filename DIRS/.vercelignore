@@ -1,8 +1,0 @@
-# Minimal ignore file - allow everything needed for build
-node_modules
-.git
-.env.local
-.env.*.local
-*.log
-scripts
-SIA

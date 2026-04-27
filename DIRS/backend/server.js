@@ -13,7 +13,31 @@ import receiptRoutes from "./routes/receiptRoutes.js";
 dotenv.config();
 
 const app = express();
-app.use(cors());
+
+// CORS Configuration
+const corsOptions = {
+  origin: function (origin, callback) {
+    const allowedOrigins = [
+      'http://localhost:5173',
+      'http://localhost:3000',
+      'http://localhost:4000',
+      process.env.FRONTEND_URL,
+    ].filter(Boolean);
+
+    // Allow requests with no origin (like mobile apps or curl requests)
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else if (process.env.NODE_ENV !== 'production') {
+      // Allow all origins in development
+      callback(null, true);
+    } else {
+      callback(new Error('CORS not allowed'));
+    }
+  },
+  credentials: true,
+};
+
+app.use(cors(corsOptions));
 app.use(express.json());
 
 app.get("/api/health", (req, res) => res.json({ status: "ok", time: new Date() }));
