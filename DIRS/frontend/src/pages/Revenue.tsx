@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useLanguage } from '../context/LanguageContext';
+import { PriceManager } from '../components/PriceManager';
 import { buildWeeklyArchive, fetchDailyReport, printDailyTransactionReport, ArchiveItem, ArchiveMeta, ArchiveSummary, DailyReport } from '../lib/archiveReport';
 import { getLocalISODate } from '../lib/dateUtils';
 import { FileText, TrendingUp, Calendar } from '../lib/icons';
@@ -131,7 +132,8 @@ export function Revenue() {
     });
 
     return periods.map((date) => {
-      const label = date.toLocaleDateString('en-US', { weekday: 'short' });
+      // Use date format for longer ranges, weekday short for 7-day view
+      const label = range === '7' ? date.toLocaleDateString('en-US', { weekday: 'short' }) : date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
       const amount = docs
         .filter((doc) => {
           const docDate = new Date(doc.date || '');
@@ -678,6 +680,8 @@ export function Revenue() {
 
         </div>
       </div>
+
+      <PriceManager />
     </div>
   );
 }

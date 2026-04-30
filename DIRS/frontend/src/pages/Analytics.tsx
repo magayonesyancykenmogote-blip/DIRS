@@ -1,6 +1,7 @@
 ﻿import { useEffect, useMemo, useState } from 'react';
 import { TrendingUp, Calendar, DollarSign, BarChart3 } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
+import { PriceManager } from '../components/PriceManager';
 import { getLocalISODate, normalizeToLocalISODate } from '../lib/dateUtils';
 
 interface DocumentRecord {
@@ -406,6 +407,8 @@ export function Analytics() {
           </table>
         </div>
       </section>
+
+      <PriceManager />
     </div>
   );
 }
